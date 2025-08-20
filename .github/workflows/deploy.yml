@@ -33,6 +33,9 @@ jobs:
       - name: Installer uv
         run: pip install uv
 
+      - name: Supprimer la db
+        run: rm *.db
+        
       - name: Installer les dépendances avec uv
         # Utilise uv.lock pour une installation rapide et déterministe
         run: uv pip sync --lock-file uv.lock
