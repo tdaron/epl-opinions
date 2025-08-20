@@ -1,0 +1,89 @@
+{% extends "base.jinja2" %}
+{% block title %}Avis - {{cours.code}} {{cours.name}}{% endblock %}
+{% block meta %}
+  <meta name="description" content="{{ cours.description|striptags|truncate(150, True, '…') }}">
+  <meta name="author" content="{{ cours.teachers }}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ cours.code }} {{ cours.name }}">
+  <meta property="og:description" content="{{ cours.description|striptags|truncate(200, True, '…') }}">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://example.com/static/images/epl_banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ cours.code }} {{ cours.name }}">
+  <meta name="twitter:description" content="{{ cours.description|striptags|truncate(200, True, '…') }}">
+  <meta name="twitter:image" content="https://example.com/static/images/epl_banner.jpg">
+{% endblock %}
+
+{% block content %}
+  <style>
+    body {
+      padding: 20px 50px;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-bottom: 16px;
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin: 0 0 12px 0;
+      font-size: 24px;
+      color: #222;
+    }
+
+    .course-meta {
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+    .course-meta p {
+      margin: 6px 0;
+    }
+
+    .giscus {
+      margin-top: 32px;
+    }
+  </style>
+
+  <a href="/" class="back-link">← Retour à la liste des cours</a>
+
+  <h1>{{cours.code}} {{cours.name}}</h1>
+
+  <div class="course-meta">
+    <p><strong>Enseignants :</strong> {{cours.teachers}}</p>
+    <p><strong>Description :</strong> {{cours.description}}</p>
+    <p><strong>Contenu :</strong> {{cours.content}}</p>
+  </div>
+
+  <div class="giscus">
+    <script src="https://giscus.app/client.js"
+            data-repo="tdaron/cloger"
+            data-repo-id="R_kgDOOqceAA"
+            data-category="General"
+            data-category-id="DIC_kwDOOqceAM4CuZBR"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-loading="lazy"
+            data-theme="preferred_color_scheme"
+            data-lang="fr"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+{% endblock %}
+

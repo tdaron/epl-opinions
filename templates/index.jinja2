@@ -1,0 +1,78 @@
+{% extends "base.jinja2" %}
+{% block title %}EPL Opinions{% endblock %}
+{% block meta %}
+  <meta name="description" content="Liste des cours EPL avec avis et informations détaillées.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="EPL Opinions - Liste des cours">
+  <meta property="og:description" content="Parcourez les cours EPL, consultez les enseignants, descriptions et avis.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://example.com/static/images/epl_banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EPL Opinions - Liste des cours">
+  <meta name="twitter:description" content="Parcourez les cours EPL, consultez les enseignants, descriptions et avis.">
+  <meta name="twitter:image" content="https://example.com/static/images/epl_banner.jpg">
+{% endblock %}
+{% block content %}
+  <style>
+    body {
+      padding: 20px 50px;
+    }
+    #search {
+      width: 100%;
+      max-width: 400px;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    #cours-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cours-item a {
+      display: block;
+      padding: 8px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #333;
+      background: #fafafa;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .cours-item a:hover {
+      background: #f0f0f0;
+      border-color: #bbb;
+    }
+  </style>
+
+  <input type="text" id="search" placeholder="Rechercher un cours..." />
+
+  <div id="cours-list">
+    {% for c in cours %}
+      <div class="cours-item">
+        <a href="/{{c.code}}.html">{{c.code}} {{c.name}}</a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("search");
+    const items = document.querySelectorAll(".cours-item");
+
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.toLowerCase();
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? "" : "none";
+      });
+    });
+  </script>
+{% endblock %}
+
