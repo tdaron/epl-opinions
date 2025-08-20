@@ -1,0 +1,61 @@
+name: Déployer le site web sur GitHub Pages
+
+on:
+  # Exécute le workflow à chaque push sur la branche "main"
+  push:
+    branches: ["main"]
+  # Permet de lancer manuellement ce workflow depuis l'onglet Actions
+  workflow_dispatch:
+
+# Définit les permissions nécessaires pour le jeton GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permet une seule exécution concurrente de ce workflow
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloner le dépôt
+        uses: actions/checkout@v4
+
+      - name: Mettre en place Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' # Correspond à votre fichier .python-version
+
+      - name: Installer uv
+        run: pip install uv
+
+      - name: Installer les dépendances avec uv
+        # Utilise uv.lock pour une installation rapide et déterministe
+        run: uv pip sync --lock-file uv.lock
+
+      - name: Récupérer les données des cours
+        run: python main.py fetch
+
+      - name: Construire le site statique
+        run: python main.py build
+
+      - name: Téléverser l'artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # Tâche de déploiement
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
