@@ -36,15 +36,12 @@ jobs:
       - name: Supprimer la db
         run: rm *.db
         
-      - name: Installer les dépendances avec uv
-        # Utilise uv.lock pour une installation rapide et déterministe
-        run: uv pip sync --lock-file uv.lock
 
       - name: Récupérer les données des cours
-        run: python main.py fetch
+        run: uv run main.py fetch
 
       - name: Construire le site statique
-        run: python main.py build
+        run: uv run main.py build
 
       - name: Téléverser l'artefact
         uses: actions/upload-pages-artifact@v3
