@@ -33,12 +33,12 @@ jobs:
       - name: Installer uv
         run: pip install uv
 
-      - name: Supprimer la db
-        run: rm *.db
+      # - name: Supprimer la db
+      #   run: rm *.db
         
 
-      - name: Récupérer les données des cours
-        run: uv run main.py fetch
+      # - name: Récupérer les données des cours
+      #   run: uv run main.py fetch
 
       - name: Construire le site statique
         run: uv run main.py build
