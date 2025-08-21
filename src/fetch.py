@@ -12,6 +12,7 @@ def fetch(PROGRAMMES):
         soup = fetch_html(url)
         links = soup.findAll("a")
         links = [l for l in links if "cours-2025" in (l.get("href") or "")]
+        links = [l.replace("/en-","/") for l in links]
         print(f"Fetching {len(links)} cours from {url}")
         for l in tqdm(links):
             href = l.get("href")
