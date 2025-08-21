@@ -25,9 +25,7 @@ class Cours:
             self.programs = []
 
     @classmethod
-    def from_link(cls, link_tag):
-        name = link_tag.string
-        url = link_tag.get("href")
+    def from_link(cls, name, url):
         instance = cls(name, url)
         instance.fetch_info()
         return instance
