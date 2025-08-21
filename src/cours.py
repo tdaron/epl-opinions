@@ -13,13 +13,16 @@ def fetch_html(url):
 
 
 class Cours:
-    def __init__(self, name, url, code=None, description=None, content=None, teachers=None):
+    def __init__(self, name, url, code=None, description=None, content=None, programs=None, teachers=None):
         self.name = name
         self.url = url
         self.code = code if code else self.url.split("-")[-1].upper()
         self.description = description
         self.content = content
         self.teachers = teachers
+        self.programs = programs
+        if self.programs == None:
+            self.programs = []
 
     @classmethod
     def from_link(cls, link_tag):
@@ -28,6 +31,10 @@ class Cours:
         instance = cls(name, url)
         instance.fetch_info()
         return instance
+
+    def add_program(self, program):
+        if not program in self.programs:
+            self.programs.append(program)
 
     def parse_info(self, soup, name):
         try:

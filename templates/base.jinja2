@@ -5,8 +5,66 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	{% block meta %} {% endblock %}
 	<title>{% block title%}{% endblock %}</title>
+
+<style>
+  body {
+    padding: 20px 2vw;
+  }
+  #cours-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap: 8px;
+  }
+  .cours-item {
+    display: block;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fafafa;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  .cours-item:hover {
+    background: #f0f0f0;
+    border-color: #bbb;
+  }
+  .program {
+    background-color: var(--color);
+    padding: 4px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .programs {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .programs.filter .program:not(.active) {
+    background-color: lightgray;
+  }
+  a.back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: #0066cc;
+    text-decoration: none;
+  }
+  a.back-link:hover {
+    text-decoration: underline;
+  }
+  h1 {
+    margin: 0 0 12px 0;
+    font-size: 24px;
+    color: #222;
+  }
+
+</style>
+
 </head>
-<body>
+<body id="swup" >
 {% block content %}
 {% endblock %}
 </body>

@@ -1,0 +1,101 @@
+{% extends "base.jinja2" %}
+{% block title %}EPL Opinions{% endblock %}
+{% block meta %}
+  <meta name="description" content="Liste des cours EPL avec avis et informations détaillées.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="EPL Opinions - Liste des cours">
+  <meta property="og:description" content="Parcourez les cours EPL, consultez les enseignants, descriptions et avis.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://example.com/static/images/epl_banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EPL Opinions - Liste des cours">
+  <meta name="twitter:description" content="Parcourez les cours EPL, consultez les enseignants, descriptions et avis.">
+  <meta name="twitter:image" content="https://example.com/static/images/epl_banner.jpg">
+{% endblock %}
+
+{% block content %}
+<style>
+  #search {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+</style>
+<a class="back-link" href="./">Back to index</a>
+<br>
+
+{% if program is defined %}
+  <h1>Cours du {{program}}</h1>
+{% endif %}
+
+<input type="text" id="search" placeholder="Rechercher un cours..." />
+
+{% if program is not defined %}
+<div class="programs filter" id="program-filters">
+  {% for p in colors.keys() %}
+    <div class="program" style="--color: {{colors[p]}}" data-program="{{p}}">{{p}}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+
+<div id="cours-list">
+  {% for c in cours %}
+    <a href="./{{c.code}}.html" class="cours-item" data-programs="{{c.programs | join(',')}}">
+      <div>
+        <p>{{c.code}} {{c.name}}</p>
+        {% if program is not defined %}
+          <div class="programs">
+            {% for p in c.programs %}
+              <div class="program" style="--color: {{colors[p]}}">{{p}}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      </a>
+  {% endfor %}
+</div>
+
+<script>
+  const searchInput = document.getElementById("search");
+  const items = document.querySelectorAll(".cours-item");
+  const programButtons = Array.from(document.querySelectorAll("#program-filters .program"));
+
+  function filterItems() {
+    const query = searchInput.value.toLowerCase();
+    const active_programs = programButtons.filter(x => x.className.includes("active")).map(x => x.dataset.program)
+    items.forEach(item => {
+      const textMatch = item.textContent.toLowerCase().includes(query);
+      const item_programs =  item.dataset.programs.split(',');
+      const programMatch = active_programs.filter(x => item_programs.includes(x)).length == active_programs.length;
+      item.style.display = (textMatch && programMatch) ? "" : "none";
+    });
+  }
+
+  // Search input listener
+  searchInput.addEventListener("input", filterItems);
+
+  // Program button listener
+  programButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Toggle active program
+      if (btn.className.includes("active")) {
+        btn.classList.remove("active");
+      } else {
+        btn.classList.add("active");
+      }
+      filterItems();
+    });
+  });
+</script>
+{% endblock %}
+
