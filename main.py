@@ -7,7 +7,6 @@ parser = argparse.ArgumentParser(prog="app")
 subparsers = parser.add_subparsers(dest="command", required=True)
 
 fetch_parser = subparsers.add_parser("fetch")
-# add_parser.add_argument("x", type=int)
 build_parser = subparsers.add_parser("build")
 
 PROGRAMMES = [
