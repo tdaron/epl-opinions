@@ -34,7 +34,7 @@ def build(PROGRAMMES):
     folder_path = Path("dist")
     folder_path.mkdir(parents=True, exist_ok=True)
     cours = read_cours_from_db().values()
-    cours = sorted(cours, key=lambda x: int(x.code[-4:]))
+    cours = sorted(cours,key=lambda x: int("".join(ch for ch in x.code if ch.isdigit())))
     print("Building...")
     compile_page(list_template, {"cours": cours, "colors": colors}, "all.html")
     compile_page(index_template, {"colors": colors}, "index.html")
